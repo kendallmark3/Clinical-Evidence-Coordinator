@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+artifacts/*.json
+!artifacts/.gitkeep
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# AgentCore packaging output
+agentcore/*.zip
+agentcore/ClinicalEvidenceAgent/
+.DS_Store

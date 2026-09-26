@@ -1,0 +1,58 @@
+{
+  "study_id": "SYN-CEC-002",
+  "title": "Synthetic Device Performance Study",
+  "protocol_requirements": [
+    {
+      "id": "REQ-001",
+      "description": "Study protocol document is present.",
+      "evidence_required": true
+    },
+    {
+      "id": "REQ-002",
+      "description": "Device verification results are present.",
+      "evidence_required": true
+    },
+    {
+      "id": "REQ-003",
+      "description": "Adverse event reconciliation record is present.",
+      "evidence_required": true
+    },
+    {
+      "id": "REQ-004",
+      "description": "Site completion summary is present.",
+      "evidence_required": true
+    }
+  ],
+  "evidence_items": [
+    {
+      "id": "EV-001",
+      "evidence_type": "protocol",
+      "source": "synthetic/protocol-v1.pdf",
+      "requirement_ids": [
+        "REQ-001"
+      ],
+      "status": "complete",
+      "summary": "Synthetic protocol artifact."
+    },
+    {
+      "id": "EV-002",
+      "evidence_type": "verification-results",
+      "source": "synthetic/device-verification.csv",
+      "requirement_ids": [
+        "REQ-002"
+      ],
+      "status": "complete",
+      "summary": "Synthetic verification result set."
+    },
+    {
+      "id": "EV-004",
+      "evidence_type": "site-summary",
+      "source": "synthetic/site-completion-summary.pdf",
+      "requirement_ids": [
+        "REQ-004"
+      ],
+      "status": "complete",
+      "summary": "Synthetic site completion summary."
+    }
+  ]
+}

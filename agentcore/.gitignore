@@ -1,0 +1,15 @@
+# Secrets (local environment files are never committed)
+.env.local
+
+# Account-specific deployment target (see aws-targets.example.json)
+aws-targets.json
+
+# CDK Build Artifacts
+cdk/cdk.out/
+cdk/node_modules/
+
+# CLI internals and deployed state (contains account IDs and ARNs)
+.cli/
+
+# Ephemeral Staging
+.cache/

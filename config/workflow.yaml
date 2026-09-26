@@ -1,0 +1,33 @@
+workflow:
+  name: clinical-evidence-coordinator
+  version: "0.1"
+  state_is_explicit: true
+  steps:
+    # Only when documents are uploaded (Orchestrator.run_documents).
+    - id: classify-documents
+      agent: document_intake
+      optional: true
+    - id: normalize-requirements
+      agent: requirements
+    - id: map-evidence
+      agent: evidence
+      depends_on:
+        - normalize-requirements
+    - id: inspect-quality
+      agent: quality
+      depends_on:
+        - normalize-requirements
+        - map-evidence
+    - id: prepare-human-review
+      agent: review
+      depends_on:
+        - inspect-quality
+    - id: deterministic-validation
+      component: backend.app.validation.validator
+      depends_on:
+        - prepare-human-review
+  completion:
+    allowed_status:
+      - READY_FOR_HUMAN_REVIEW
+      - NOT_READY_FOR_HUMAN_REVIEW
+    human_review_required: true

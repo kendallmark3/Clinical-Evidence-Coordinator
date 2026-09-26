@@ -1,0 +1,37 @@
+agent:
+  name: clinical-evidence-coordinator
+  version: "0.1"
+  intent: >
+    Review a synthetic clinical-study evidence package for structural
+    completeness, traceability, and readiness for a qualified human reviewer.
+
+  runtime:
+    preferred: aws-agentcore
+    local: supported
+
+  workers:
+    - requirements
+    - evidence
+    - quality
+    - review
+
+  capabilities:
+    - normalize-requirements
+    - map-evidence
+    - detect-quality-gaps
+    - prepare-human-review-package
+
+  validation:
+    mode: deterministic-fail-closed
+    human_review_required: true
+
+  data_policy:
+    synthetic_data_only: true
+    phi_allowed: false
+
+  portability:
+    cloud_specific_code_location:
+      - backend/app/runtime/
+      - backend/app/providers/
+      - agentcore/
+      - infrastructure/

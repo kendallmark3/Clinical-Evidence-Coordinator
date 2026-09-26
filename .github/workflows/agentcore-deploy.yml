@@ -1,0 +1,63 @@
+name: AgentCore Deploy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: aws-agentcore
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Verify
+        run: |
+          python -m compileall backend
+          pytest -q
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_AGENTCORE_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Install AgentCore CLI
+        run: npm install -g @aws/agentcore
+
+      - name: Show AgentCore CLI version
+        run: agentcore --version
+
+      - name: Write deployment target
+        env:
+          AWS_ACCOUNT_ID: ${{ vars.AWS_ACCOUNT_ID }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+        run: |
+          test -n "$AWS_ACCOUNT_ID" || (echo "Set the AWS_ACCOUNT_ID repository variable." && exit 1)
+          printf '[{"name":"default","account":"%s","region":"%s"}]\n' "$AWS_ACCOUNT_ID" "$AWS_REGION" > agentcore/aws-targets.json
+
+      - name: Install CDK dependencies
+        run: npm ci --prefix agentcore/cdk
+
+      - name: Dry run
+        run: agentcore deploy --dry-run
+
+      # Intentionally no automatic production deploy in the starter.
+      # After reviewing the dry run, add:
+      # - name: Deploy
+      #   run: agentcore deploy -y

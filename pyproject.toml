@@ -1,0 +1,13 @@
+# Runtime dependencies for the AgentCore CodeZip package.
+# The AgentCore CLI installs these with `uv pip install -r pyproject.toml`;
+# local development still uses requirements.txt.
+[project]
+name = "clinical-evidence-coordinator"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "bedrock-agentcore >= 1.9.1",
+    "pydantic >= 2.7, < 3.0",
+    "anthropic[bedrock] >= 1.8, < 2.0",
+    "pypdf >= 6.0, < 7.0",
+]

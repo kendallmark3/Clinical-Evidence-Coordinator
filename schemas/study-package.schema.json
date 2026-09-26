@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Clinical Evidence Coordinator Study Package",
+  "type": "object",
+  "required": [
+    "study_id",
+    "title",
+    "protocol_requirements",
+    "evidence_items"
+  ],
+  "properties": {
+    "study_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "protocol_requirements": {
+      "type": "array"
+    },
+    "evidence_items": {
+      "type": "array"
+    }
+  }
+}

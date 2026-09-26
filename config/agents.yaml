@@ -1,0 +1,62 @@
+agents:
+  document_intake:
+    class: backend.app.agents.document_intake_agent.DocumentIntakeAgent
+    prompt: prompts/document_intake.md
+    artifact: artifacts/document-intake.json
+    provider: PROVIDER_MODE  # mock (keyword matching) or bedrock (Claude)
+    permissions:
+      read:
+        - study.protocol_requirements
+        - upload.document_text
+      write:
+        - artifacts/document-intake.json
+    tools: []
+
+  requirements:
+    class: backend.app.agents.requirements_agent.RequirementsAgent
+    prompt: prompts/requirements.md
+    artifact: artifacts/requirements.json
+    permissions:
+      read:
+        - study.protocol_requirements
+      write:
+        - artifacts/requirements.json
+    tools: []
+
+  evidence:
+    class: backend.app.agents.evidence_agent.EvidenceAgent
+    prompt: prompts/evidence.md
+    artifact: artifacts/evidence-map.json
+    permissions:
+      read:
+        - workflow.requirements
+        - study.evidence_items
+      write:
+        - artifacts/evidence-map.json
+    tools: []
+
+  quality:
+    class: backend.app.agents.quality_agent.QualityAgent
+    prompt: prompts/quality.md
+    artifact: artifacts/quality-findings.json
+    permissions:
+      read:
+        - workflow.requirements
+        - workflow.evidence_map
+        - study.evidence_items
+      write:
+        - artifacts/quality-findings.json
+    tools: []
+
+  review:
+    class: backend.app.agents.review_agent.ReviewAgent
+    prompt: prompts/review.md
+    artifact: artifacts/review-summary.json
+    permissions:
+      read:
+        - workflow.requirements
+        - workflow.evidence_map
+        - workflow.quality_findings
+      write:
+        - artifacts/review-summary.json
+    tools: []
