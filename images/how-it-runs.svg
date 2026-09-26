@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="960" viewBox="0 0 1400 960" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475467"/>
+    </marker>
+    <marker id="arrow-model" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6941c6"/>
+    </marker>
+  </defs>
+
+  <rect width="1400" height="960" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="40" y="52" font-size="28" font-weight="700" fill="#101828">Clinical Evidence Coordinator: how a review runs</text>
+  <text x="40" y="82" font-size="16" fill="#475467">Agents analyze. Rules validate. Humans decide.  ·  One Python process runs every agent in order; nothing is a separate service.</text>
+
+  <!-- ===== Entry points ===== -->
+  <text x="40" y="132" font-size="13" font-weight="700" fill="#667085" letter-spacing="1">1. HOW A REQUEST COMES IN</text>
+
+  <!-- Local -->
+  <rect x="40" y="148" width="270" height="178" rx="10" fill="#f9fafb" stroke="#d0d5dd"/>
+  <text x="56" y="174" font-size="15" font-weight="700" fill="#101828">Locally (today)</text>
+  <rect x="56" y="188" width="238" height="50" rx="7" fill="#ffffff" stroke="#d0d5dd"/>
+  <text x="68" y="209" font-size="13" font-weight="700" fill="#101828">Browser upload page</text>
+  <text x="68" y="227" font-size="12" fill="#475467">frontend/index.html · PDFs</text>
+  <line x1="175" y1="238" x2="175" y2="258" stroke="#475467" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <rect x="56" y="260" width="238" height="52" rx="7" fill="#ffffff" stroke="#d0d5dd"/>
+  <text x="68" y="281" font-size="13" font-weight="700" fill="#101828">FastAPI server</text>
+  <text x="68" y="299" font-size="12" fill="#475467">backend/app/main.py</text>
+
+  <!-- AWS -->
+  <rect x="40" y="346" width="270" height="250" rx="10" fill="#fff8ed" stroke="#f5b54a"/>
+  <text x="56" y="372" font-size="15" font-weight="700" fill="#101828">In AWS (after deploy)</text>
+  <rect x="56" y="386" width="238" height="44" rx="7" fill="#ffffff" stroke="#f5b54a"/>
+  <text x="68" y="413" font-size="13" font-weight="700" fill="#101828">AWS-signed caller</text>
+  <line x1="175" y1="430" x2="175" y2="448" stroke="#475467" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <rect x="56" y="450" width="238" height="52" rx="7" fill="#ffffff" stroke="#f5b54a"/>
+  <text x="68" y="471" font-size="13" font-weight="700" fill="#101828">AgentCore Runtime</text>
+  <text x="68" y="489" font-size="12" fill="#475467">AWS hosts the zipped repo</text>
+  <line x1="175" y1="502" x2="175" y2="520" stroke="#475467" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <rect x="56" y="522" width="238" height="58" rx="7" fill="#ffffff" stroke="#f5b54a"/>
+  <text x="68" y="543" font-size="13" font-weight="700" fill="#101828">agentcore_app.py</text>
+  <text x="68" y="561" font-size="12" fill="#475467">only file that imports AgentCore</text>
+  <text x="68" y="575" font-size="12" fill="#475467">→ AgentCoreRuntimeAdapter</text>
+
+  <!-- Entry arrows into orchestrator -->
+  <path d="M294,286 L338,286" stroke="#475467" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+  <path d="M294,551 L318,551 L318,330 L338,330" stroke="#475467" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- ===== Orchestrator ===== -->
+  <text x="340" y="132" font-size="13" font-weight="700" fill="#667085" letter-spacing="1">2. THE ORCHESTRATOR CALLS EACH AGENT IN ORDER</text>
+  <rect x="340" y="148" width="1020" height="448" rx="12" fill="#f5f8ff" stroke="#84adff" stroke-width="1.5"/>
+  <text x="360" y="176" font-size="16" font-weight="700" fill="#101828">Orchestrator</text>
+  <text x="470" y="176" font-size="13" fill="#475467">backend/app/orchestration/orchestrator.py · owns the workflow state · passes each agent only the inputs it needs</text>
+
+  <!-- Step cards: x = 356 + i*168, width 152 -->
+  <!-- 0 Document intake (model) -->
+  <rect x="356" y="196" width="152" height="230" rx="9" fill="#f4f0ff" stroke="#9e77ed" stroke-width="1.5"/>
+  <rect x="368" y="208" width="58" height="20" rx="10" fill="#6941c6"/>
+  <text x="397" y="222" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">MODEL</text>
+  <text x="368" y="250" font-size="14" font-weight="700" fill="#101828">0 · Document</text>
+  <text x="368" y="268" font-size="14" font-weight="700" fill="#101828">Intake</text>
+  <text x="368" y="286" font-size="11" fill="#667085">document_intake_agent.py</text>
+  <text x="368" y="312" font-size="11" font-weight="700" fill="#344054">GETS</text>
+  <text x="368" y="327" font-size="12" fill="#344054">requirements + text</text>
+  <text x="368" y="342" font-size="12" fill="#344054">of one PDF at a time</text>
+  <text x="368" y="368" font-size="11" font-weight="700" fill="#344054">PRODUCES</text>
+  <text x="368" y="383" font-size="12" fill="#344054">proposed evidence:</text>
+  <text x="368" y="398" font-size="12" fill="#344054">which requirement,</text>
+  <text x="368" y="413" font-size="12" fill="#344054">final or draft</text>
+
+  <!-- 1 Requirements -->
+  <rect x="524" y="196" width="152" height="230" rx="9" fill="#ffffff" stroke="#98a2b3"/>
+  <rect x="536" y="208" width="58" height="20" rx="10" fill="#475467"/>
+  <text x="565" y="222" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">RULES</text>
+  <text x="536" y="250" font-size="14" font-weight="700" fill="#101828">1 · Requirements</text>
+  <text x="536" y="286" font-size="11" fill="#667085">requirements_agent.py</text>
+  <text x="536" y="312" font-size="11" font-weight="700" fill="#344054">GETS</text>
+  <text x="536" y="327" font-size="12" fill="#344054">protocol requirements</text>
+  <text x="536" y="368" font-size="11" font-weight="700" fill="#344054">PRODUCES</text>
+  <text x="536" y="383" font-size="12" fill="#344054">normalized</text>
+  <text x="536" y="398" font-size="12" fill="#344054">requirement list</text>
+
+  <!-- 2 Evidence -->
+  <rect x="692" y="196" width="152" height="230" rx="9" fill="#ffffff" stroke="#98a2b3"/>
+  <rect x="704" y="208" width="58" height="20" rx="10" fill="#475467"/>
+  <text x="733" y="222" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">RULES</text>
+  <text x="704" y="250" font-size="14" font-weight="700" fill="#101828">2 · Evidence</text>
+  <text x="704" y="286" font-size="11" fill="#667085">evidence_agent.py</text>
+  <text x="704" y="312" font-size="11" font-weight="700" fill="#344054">GETS</text>
+  <text x="704" y="327" font-size="12" fill="#344054">requirements +</text>
+  <text x="704" y="342" font-size="12" fill="#344054">evidence items</text>
+  <text x="704" y="368" font-size="11" font-weight="700" fill="#344054">PRODUCES</text>
+  <text x="704" y="383" font-size="12" fill="#344054">evidence map:</text>
+  <text x="704" y="398" font-size="12" fill="#344054">requirement → docs</text>
+
+  <!-- 3 Quality -->
+  <rect x="860" y="196" width="152" height="230" rx="9" fill="#ffffff" stroke="#98a2b3"/>
+  <rect x="872" y="208" width="58" height="20" rx="10" fill="#475467"/>
+  <text x="901" y="222" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">RULES</text>
+  <text x="872" y="250" font-size="14" font-weight="700" fill="#101828">3 · Quality</text>
+  <text x="872" y="286" font-size="11" fill="#667085">quality_agent.py</text>
+  <text x="872" y="312" font-size="11" font-weight="700" fill="#344054">GETS</text>
+  <text x="872" y="327" font-size="12" fill="#344054">requirements, evidence,</text>
+  <text x="872" y="342" font-size="12" fill="#344054">evidence map</text>
+  <text x="872" y="368" font-size="11" font-weight="700" fill="#344054">PRODUCES</text>
+  <text x="872" y="383" font-size="12" fill="#344054">blocking findings:</text>
+  <text x="872" y="398" font-size="12" fill="#344054">gaps, duplicates,</text>
+  <text x="872" y="413" font-size="12" fill="#344054">unknown IDs</text>
+
+  <!-- 4 Review -->
+  <rect x="1028" y="196" width="152" height="230" rx="9" fill="#ffffff" stroke="#98a2b3"/>
+  <rect x="1040" y="208" width="58" height="20" rx="10" fill="#475467"/>
+  <text x="1069" y="222" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">RULES</text>
+  <text x="1040" y="250" font-size="14" font-weight="700" fill="#101828">4 · Review</text>
+  <text x="1040" y="286" font-size="11" fill="#667085">review_agent.py</text>
+  <text x="1040" y="312" font-size="11" font-weight="700" fill="#344054">GETS</text>
+  <text x="1040" y="327" font-size="12" fill="#344054">requirements, map,</text>
+  <text x="1040" y="342" font-size="12" fill="#344054">findings</text>
+  <text x="1040" y="368" font-size="11" font-weight="700" fill="#344054">PRODUCES</text>
+  <text x="1040" y="383" font-size="12" fill="#344054">summary for the</text>
+  <text x="1040" y="398" font-size="12" fill="#344054">human reviewer</text>
+
+  <!-- 5 Validator (gate) -->
+  <rect x="1196" y="196" width="152" height="230" rx="9" fill="#ecfdf3" stroke="#32d583" stroke-width="2"/>
+  <rect x="1208" y="208" width="96" height="20" rx="10" fill="#067647"/>
+  <text x="1256" y="222" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">RULES DECIDE</text>
+  <text x="1208" y="250" font-size="14" font-weight="700" fill="#101828">5 · Validator</text>
+  <text x="1208" y="286" font-size="11" fill="#667085">validation/validator.py</text>
+  <text x="1208" y="312" font-size="11" font-weight="700" fill="#344054">GETS</text>
+  <text x="1208" y="327" font-size="12" fill="#344054">requirements, map,</text>
+  <text x="1208" y="342" font-size="12" fill="#344054">findings</text>
+  <text x="1208" y="368" font-size="11" font-weight="700" fill="#344054">PRODUCES</text>
+  <text x="1208" y="383" font-size="12" fill="#344054">the only final</text>
+  <text x="1208" y="398" font-size="12" fill="#344054">status; fails closed</text>
+
+  <!-- arrows between cards -->
+  <line x1="508" y1="311" x2="522" y2="311" stroke="#475467" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="676" y1="311" x2="690" y2="311" stroke="#475467" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="844" y1="311" x2="858" y2="311" stroke="#475467" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="1012" y1="311" x2="1026" y2="311" stroke="#475467" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="1180" y1="311" x2="1194" y2="311" stroke="#475467" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <text x="358" y="444" font-size="11" fill="#6941c6">Step 0 runs only when PDFs are uploaded;</text>
+  <text x="358" y="458" font-size="11" fill="#6941c6">JSON requests start at step 1.</text>
+
+  <!-- Provider -->
+  <line x1="432" y1="464" x2="432" y2="482" stroke="#6941c6" stroke-width="1.8" marker-end="url(#arrow-model)"/>
+  <rect x="356" y="484" width="320" height="96" rx="9" fill="#ffffff" stroke="#9e77ed" stroke-dasharray="5 4"/>
+  <text x="370" y="506" font-size="13" font-weight="700" fill="#101828">Provider (the only code that calls a model)</text>
+  <text x="370" y="525" font-size="12" fill="#344054">bedrock: Claude on Amazon Bedrock</text>
+  <text x="370" y="542" font-size="12" fill="#344054">mock: offline keyword matching (not AI)</text>
+  <text x="370" y="565" font-size="12" fill="#6941c6">One call per PDF. Bad answers fail closed.</text>
+
+  <!-- Artifacts -->
+  <rect x="692" y="484" width="656" height="96" rx="9" fill="#ffffff" stroke="#d0d5dd"/>
+  <text x="708" y="506" font-size="13" font-weight="700" fill="#101828">Every step writes a JSON record (audit trail)</text>
+  <text x="708" y="528" font-size="12" fill="#344054">document-intake.json · requirements.json · evidence-map.json · quality-findings.json</text>
+  <text x="708" y="546" font-size="12" fill="#344054">review-summary.json · validation-result.json · workflow-state.json</text>
+  <text x="708" y="568" font-size="12" fill="#667085">Written to ARTIFACT_DIR (local folder today; /tmp inside AgentCore)</text>
+
+  <!-- ===== Verdict ===== -->
+  <text x="340" y="636" font-size="13" font-weight="700" fill="#667085" letter-spacing="1">3. RESULT</text>
+  <path d="M1272,426 L1272,470 L1380,470 L1380,618 L775,618 L775,646" stroke="#475467" stroke-width="1.8" fill="none" marker-end="url(#arrow)"/>
+  <rect x="340" y="652" width="410" height="96" rx="10" fill="#ecfdf3" stroke="#32d583"/>
+  <text x="358" y="680" font-size="15" font-weight="700" fill="#067647">READY_FOR_HUMAN_REVIEW</text>
+  <text x="358" y="702" font-size="12" fill="#344054">Every requirement has complete evidence</text>
+  <text x="358" y="719" font-size="12" fill="#344054">and there are no blocking findings.</text>
+  <text x="358" y="736" font-size="12" fill="#344054">Still only a recommendation.</text>
+  <text x="768" y="706" font-size="14" font-weight="700" fill="#667085">or</text>
+  <rect x="800" y="652" width="410" height="96" rx="10" fill="#fef3f2" stroke="#f97066"/>
+  <text x="818" y="680" font-size="15" font-weight="700" fill="#b42318">NOT_READY_FOR_HUMAN_REVIEW</text>
+  <text x="818" y="702" font-size="12" fill="#344054">Names the gap, for example</text>
+  <text x="818" y="719" font-size="12" fill="#344054">"No complete evidence available for REQ-003"</text>
+  <text x="818" y="736" font-size="12" fill="#344054">(missing or draft document).</text>
+  <path d="M750,748 L750,772" stroke="#475467" stroke-width="1.8" fill="none"/>
+  <path d="M1005,748 L1005,772 L495,772 L495,748" stroke="#475467" stroke-width="1.8" fill="none"/>
+  <line x1="750" y1="772" x2="750" y2="790" stroke="#475467" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <rect x="560" y="792" width="380" height="52" rx="10" fill="#101828"/>
+  <text x="750" y="815" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle">A human reviewer decides</text>
+  <text x="750" y="833" font-size="12" fill="#d0d5dd" text-anchor="middle">No clinical, safety or regulatory decisions are automated</text>
+
+  <!-- ===== Deploy time ===== -->
+  <rect x="40" y="632" width="270" height="296" rx="10" fill="#ffffff" stroke="#98a2b3" stroke-dasharray="6 5"/>
+  <text x="56" y="658" font-size="13" font-weight="700" fill="#667085" letter-spacing="1">DEPLOY TIME ONLY</text>
+  <text x="56" y="680" font-size="12" fill="#475467">Runs once per deploy, never</text>
+  <text x="56" y="696" font-size="12" fill="#475467">during a review.</text>
+  <rect x="56" y="710" width="238" height="40" rx="7" fill="#f9fafb" stroke="#d0d5dd"/>
+  <text x="68" y="735" font-size="13" font-weight="700" fill="#101828">agentcore deploy</text>
+  <line x1="175" y1="750" x2="175" y2="766" stroke="#475467" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <rect x="56" y="768" width="238" height="54" rx="7" fill="#f9fafb" stroke="#d0d5dd"/>
+  <text x="68" y="789" font-size="13" font-weight="700" fill="#101828">CDK app (agentcore/cdk)</text>
+  <text x="68" y="808" font-size="12" fill="#475467">reads agentcore.json, zips repo</text>
+  <line x1="175" y1="822" x2="175" y2="838" stroke="#475467" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <rect x="56" y="840" width="238" height="72" rx="7" fill="#f9fafb" stroke="#d0d5dd"/>
+  <text x="68" y="861" font-size="13" font-weight="700" fill="#101828">CloudFormation creates</text>
+  <text x="68" y="880" font-size="12" fill="#475467">1 AgentCore Runtime</text>
+  <text x="68" y="897" font-size="12" fill="#475467">1 IAM role + policy</text>
+
+  <!-- Legend -->
+  <rect x="980" y="872" width="14" height="14" rx="3" fill="#f4f0ff" stroke="#9e77ed"/>
+  <text x="1000" y="884" font-size="12" fill="#475467">calls a model</text>
+  <rect x="1100" y="872" width="14" height="14" rx="3" fill="#ffffff" stroke="#98a2b3"/>
+  <text x="1120" y="884" font-size="12" fill="#475467">deterministic rules</text>
+  <rect x="1240" y="872" width="14" height="14" rx="3" fill="#ecfdf3" stroke="#32d583"/>
+  <text x="1260" y="884" font-size="12" fill="#475467">final gate</text>
+  <text x="1360" y="920" font-size="11" fill="#98a2b3" text-anchor="end">Synthetic data only · reference implementation</text>
+</svg>

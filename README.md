@@ -43,6 +43,10 @@ This repo deliberately separates **domain logic** from **cloud runtime plumbing*
 
 ## Architecture
 
+![How a review runs](images/how-it-runs.png)
+
+The editable source is `images/how-it-runs.svg`.
+
 ```text
                     DOMAIN LAYER
 ┌─────────────────────────────────────────────────────────────┐
