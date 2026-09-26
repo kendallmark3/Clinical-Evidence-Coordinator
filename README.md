@@ -45,7 +45,9 @@ This repo deliberately separates **domain logic** from **cloud runtime plumbing*
 
 ![How a review runs](images/how-it-runs.png)
 
-The editable source is `images/how-it-runs.svg`.
+![SDKs, prompts and what reaches production](images/sdks-and-production.png)
+
+Editable sources: `images/how-it-runs.svg`, `images/sdks-and-production.svg`.
 
 ```text
                     DOMAIN LAYER

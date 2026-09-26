@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1060" viewBox="0 0 1400 1060" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475467"/>
+    </marker>
+  </defs>
+  <rect width="1400" height="1060" fill="#ffffff"/>
+
+  <text x="40" y="52" font-size="28" font-weight="700" fill="#101828">Clinical Evidence Coordinator: SDKs, prompts and what reaches production</text>
+  <text x="40" y="82" font-size="16" fill="#475467">AgentCore is where the code runs. Bedrock is the model it calls. Each SDK is imported in exactly one file.</text>
+
+  <!-- ===== 1. SDKs ===== -->
+  <text x="40" y="128" font-size="13" font-weight="700" fill="#667085" letter-spacing="1">1. TWO DIFFERENT SDKs: HOSTING vs. MODEL CALLS</text>
+
+  <!-- AgentCore SDK -->
+  <rect x="40" y="144" width="650" height="206" rx="12" fill="#fff8ed" stroke="#f5b54a" stroke-width="1.5"/>
+  <rect x="58" y="160" width="84" height="22" rx="11" fill="#b54708"/>
+  <text x="100" y="175" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">HOSTING</text>
+  <text x="156" y="177" font-size="19" font-weight="700" fill="#101828">AgentCore SDK</text>
+  <text x="304" y="177" font-size="14" fill="#475467">package: bedrock_agentcore</text>
+  <text x="58" y="210" font-size="14" fill="#344054">Turns our workflow into something AgentCore Runtime can host.</text>
+  <text x="58" y="238" font-size="12" font-weight="700" fill="#667085">IMPORTED IN (NOWHERE ELSE)</text>
+  <rect x="58" y="246" width="614" height="30" rx="6" fill="#ffffff" stroke="#f5b54a"/>
+  <text x="70" y="266" font-size="12" font-family="Menlo, monospace" fill="#101828">agentcore_app.py:11  from bedrock_agentcore.runtime import BedrockAgentCoreApp</text>
+  <text x="58" y="298" font-size="13" fill="#344054">Gives us: the /ping and /invocations endpoints that AgentCore calls.</text>
+  <text x="58" y="318" font-size="13" fill="#344054">Hands each request to AgentCoreRuntimeAdapter, then the orchestrator.</text>
+  <text x="58" y="340" font-size="13" font-weight="700" fill="#b54708">Never calls a model.</text>
+
+  <!-- Anthropic SDK -->
+  <rect x="710" y="144" width="650" height="206" rx="12" fill="#f4f0ff" stroke="#9e77ed" stroke-width="1.5"/>
+  <rect x="728" y="160" width="112" height="22" rx="11" fill="#6941c6"/>
+  <text x="784" y="175" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">MODEL CALLS</text>
+  <text x="854" y="177" font-size="19" font-weight="700" fill="#101828">Anthropic SDK</text>
+  <text x="1002" y="177" font-size="14" fill="#475467">package: anthropic</text>
+  <text x="728" y="210" font-size="14" fill="#344054">Sends one PDF's text at a time to Claude on Amazon Bedrock.</text>
+  <text x="728" y="238" font-size="12" font-weight="700" fill="#667085">IMPORTED IN (NOWHERE ELSE)</text>
+  <rect x="728" y="246" width="614" height="30" rx="6" fill="#ffffff" stroke="#9e77ed"/>
+  <text x="740" y="266" font-size="12" font-family="Menlo, monospace" fill="#101828">providers/bedrock_provider.py:16  from anthropic import AnthropicBedrockMantle</text>
+  <text x="728" y="298" font-size="13" fill="#344054">Used only when PROVIDER_MODE=bedrock. The offline mock needs no SDK.</text>
+  <text x="728" y="318" font-size="13" fill="#344054">Signs requests with the AWS credentials of wherever it runs.</text>
+  <text x="728" y="340" font-size="13" font-weight="700" fill="#6941c6">Knows nothing about AgentCore.</text>
+
+  <!-- Supporting libraries -->
+  <rect x="40" y="366" width="1320" height="102" rx="10" fill="#f9fafb" stroke="#d0d5dd"/>
+  <text x="58" y="390" font-size="13" font-weight="700" fill="#101828">Supporting libraries</text>
+  <text x="58" y="414" font-size="13" fill="#344054"><tspan font-weight="700">FastAPI</tspan>  backend/app/main.py · local web API and upload page</text>
+  <text x="58" y="436" font-size="13" fill="#344054"><tspan font-weight="700">pydantic</tspan>  models.py, main.py, agentcore_app.py · checks every input</text>
+  <text x="58" y="458" font-size="13" fill="#344054"><tspan font-weight="700">pypdf</tspan>  documents/pdf_text.py · turns PDFs into text</text>
+  <text x="710" y="414" font-size="13" fill="#344054"><tspan font-weight="700">fpdf2</tspan>  scripts/ only · generates the synthetic test PDFs</text>
+  <text x="710" y="436" font-size="13" fill="#344054"><tspan font-weight="700">starlette</tspan>  tests only · test HTTP client</text>
+  <text x="710" y="458" font-size="13" fill="#667085">Installed but never imported by our code: boto3 / botocore (AWS signing inside the SDKs)</text>
+
+  <!-- ===== 2. Prompts ===== -->
+  <text x="40" y="510" font-size="13" font-weight="700" fill="#667085" letter-spacing="1">2. HOW THE PROMPT REACHES PRODUCTION</text>
+  <rect x="40" y="526" width="300" height="70" rx="9" fill="#ffffff" stroke="#9e77ed"/>
+  <text x="56" y="552" font-size="14" font-weight="700" fill="#101828">prompts/document_intake.md</text>
+  <text x="56" y="574" font-size="13" fill="#475467">written and versioned in git</text>
+  <line x1="340" y1="561" x2="376" y2="561" stroke="#475467" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <rect x="378" y="526" width="300" height="70" rx="9" fill="#ffffff" stroke="#9e77ed"/>
+  <text x="394" y="552" font-size="14" font-weight="700" fill="#101828">Shipped inside the zip</text>
+  <text x="394" y="574" font-size="13" fill="#475467">agentcore package copies the repo</text>
+  <line x1="678" y1="561" x2="714" y2="561" stroke="#475467" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <rect x="716" y="526" width="300" height="70" rx="9" fill="#ffffff" stroke="#9e77ed"/>
+  <text x="732" y="552" font-size="14" font-weight="700" fill="#101828">Read once at startup</text>
+  <text x="732" y="574" font-size="13" fill="#475467">by DocumentIntakeAgent</text>
+  <line x1="1016" y1="561" x2="1052" y2="561" stroke="#475467" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <rect x="1054" y="526" width="306" height="70" rx="9" fill="#f4f0ff" stroke="#9e77ed"/>
+  <text x="1070" y="552" font-size="14" font-weight="700" fill="#101828">System prompt on every call</text>
+  <text x="1070" y="574" font-size="13" fill="#475467">one Claude call per PDF</text>
+  <text x="40" y="622" font-size="13" fill="#344054">Changing a prompt means commit and redeploy: it is code. The other four prompt files (requirements, evidence, quality, review) are design notes; no code reads them.</text>
+
+  <!-- ===== 3. What reaches production ===== -->
+  <text x="40" y="668" font-size="13" font-weight="700" fill="#667085" letter-spacing="1">3. WHAT REACHES PRODUCTION (THE AGENTCORE ZIP)</text>
+
+  <rect x="40" y="684" width="420" height="214" rx="10" fill="#ecfdf3" stroke="#32d583" stroke-width="1.5"/>
+  <text x="58" y="710" font-size="15" font-weight="700" fill="#067647">Runs in production</text>
+  <text x="58" y="736" font-size="13" fill="#344054">agentcore_app.py  (entry point)</text>
+  <text x="58" y="758" font-size="13" fill="#344054">backend/app/  orchestrator, five agents,</text>
+  <text x="58" y="776" font-size="13" fill="#344054">validator, providers, PDF reader</text>
+  <text x="58" y="798" font-size="13" fill="#344054">prompts/document_intake.md</text>
+  <text x="58" y="820" font-size="13" fill="#344054">Libraries listed in pyproject.toml</text>
+  <text x="58" y="850" font-size="12" fill="#475467">This is the only code AWS executes when</text>
+  <text x="58" y="866" font-size="12" fill="#475467">a review runs.</text>
+
+  <rect x="490" y="684" width="420" height="214" rx="10" fill="#f9fafb" stroke="#98a2b3" stroke-width="1.5"/>
+  <text x="508" y="710" font-size="15" font-weight="700" fill="#344054">In the zip, but never read</text>
+  <text x="508" y="736" font-size="13" fill="#344054">intents/Feature.md</text>
+  <text x="508" y="758" font-size="13" fill="#344054">config/*.yaml, agent-manifest.yaml</text>
+  <text x="508" y="780" font-size="13" fill="#344054">the other four prompt files</text>
+  <text x="508" y="802" font-size="13" fill="#344054">docs/, tests, scripts, samples, infrastructure/</text>
+  <text x="508" y="824" font-size="13" fill="#344054">frontend/index.html (AgentCore serves no pages)</text>
+  <text x="508" y="850" font-size="12" fill="#475467">The CLI zips the whole repo, so these ride</text>
+  <text x="508" y="866" font-size="12" fill="#475467">along harmlessly. They guide people and AI tools.</text>
+
+  <rect x="940" y="684" width="420" height="214" rx="10" fill="#ffffff" stroke="#98a2b3" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="958" y="710" font-size="15" font-weight="700" fill="#344054">Never in the zip</text>
+  <text x="958" y="736" font-size="13" fill="#344054">agentcore/  CDK app, agentcore.json,</text>
+  <text x="958" y="754" font-size="13" fill="#344054">aws-targets.json  (deploy-time only)</text>
+  <text x="958" y="776" font-size="13" fill="#344054">.venv, node_modules, .git</text>
+  <text x="958" y="798" font-size="13" fill="#344054">.env files (secrets)</text>
+  <text x="958" y="850" font-size="12" fill="#475467">The AgentCore CLI excludes these</text>
+  <text x="958" y="866" font-size="12" fill="#475467">automatically.</text>
+
+  <!-- ===== 4. Infrastructure ===== -->
+  <text x="40" y="940" font-size="13" font-weight="700" fill="#667085" letter-spacing="1">4. INFRASTRUCTURE: THREE SEPARATE TOOLS, AND NONE CALLS ANOTHER</text>
+
+  <rect x="40" y="956" width="420" height="82" rx="10" fill="#fff8ed" stroke="#f5b54a"/>
+  <text x="58" y="980" font-size="14" font-weight="700" fill="#101828">agentcore deploy → CDK → CloudFormation</text>
+  <text x="58" y="1002" font-size="13" fill="#344054">Creates the AgentCore Runtime + IAM role.</text>
+  <text x="58" y="1022" font-size="13" font-weight="700" fill="#b54708">The path we use.</text>
+
+  <rect x="490" y="956" width="420" height="82" rx="10" fill="#ffffff" stroke="#98a2b3" stroke-dasharray="6 5"/>
+  <text x="508" y="980" font-size="14" font-weight="700" fill="#101828">Terraform (infrastructure/terraform)</text>
+  <text x="508" y="1002" font-size="13" fill="#344054">Optional starter: ECR repo, S3 bucket, DynamoDB.</text>
+  <text x="508" y="1022" font-size="13" fill="#667085">Never applied. CDK does not call it.</text>
+
+  <rect x="940" y="956" width="420" height="82" rx="10" fill="#ffffff" stroke="#d0d5dd"/>
+  <text x="958" y="980" font-size="14" font-weight="700" fill="#101828">GitHub Actions</text>
+  <text x="958" y="1002" font-size="13" fill="#344054">CI on every push: compile, tests, Docker build.</text>
+  <text x="958" y="1022" font-size="13" fill="#344054">AgentCore workflow: manual dry run only.</text>
+</svg>
