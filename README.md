@@ -132,6 +132,7 @@ Background reading, in order:
 3. `docs/AGENTCORE_DEPLOYMENT.md`
 4. `docs/PLATFORM_ARCHITECTURE.md`
 5. `docs/BUILD_SEQUENCE.md`
+6. `docs/AI_ANALYSIS.md`: current assessment of this design as a template for many agents
 
 ## Learning goal
 
