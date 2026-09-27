@@ -10,6 +10,10 @@ The application reviews **synthetic clinical-study evidence packages** for struc
 
 This repo deliberately separates **domain logic** from **cloud runtime plumbing** so the clinical workflow can later map to other clouds without rewriting the core.
 
+![What we are trying to prove](images/concept-overview.jpg)
+
+*The concept. For how the current code actually runs, see the diagrams under [Architecture](#architecture).*
+
 ## What is already implemented
 
 - Explicit shared workflow state
